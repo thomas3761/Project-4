@@ -2,8 +2,8 @@ from direct.showbase.ShowBase import ShowBase
 import SpaceJamClasses as spaceJamClasses
 import DefensePaths as defensePaths
 from panda3d.core import *
-import math,random
-from panda3d.core import CollisionTraverser,CollisionHandlerPusher
+import math, random
+from panda3d.core import CollisionTraverser, CollisionHandlerPusher
 from CollideObjectBase import PlacedObject
 
 class SpaceJam(ShowBase):

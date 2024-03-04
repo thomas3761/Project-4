@@ -66,11 +66,14 @@ class Planet(ShowBase):
 
 class Universe(InverseSphereCollideObject):
     def __init__(self, loader: Loader, render: NodePath, modelPath: str, parentNode: NodePath, nodeName: str, texPath: str, posVec: Vec3, scaleVec: float):
-        super(Universe, self).__init__(loader, modelPath, parentNode, nodeName, Vec3(0, 0, 0), 0.9)
-        self.modelNode.setmodelNode.setPos(posVec)
-        self.modelNode.setmodelNode.setScale(scaleVec)
-        self.modelNode.setmodelNode.setName(nodeName)
+        super(InverseSphereCollideObject, self).__init__(Loader, modelPath, parentNode, nodeName, Vec3(0, 0, 0), 0.9)
+        
+        # Set position and scale of the model node
+        self.modelNode.setPos(posVec)
+        self.modelNode.setScale(scaleVec)
+        self.modelNode.setName(nodeName)
 
+        # Load the model, set its texture, and position it
         self.universe = loader.loadModel(modelPath)
         self.universe.reparentTo(render)
         self.universe.setPos(posVec)
