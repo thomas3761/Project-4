@@ -11,7 +11,6 @@ class PlacedObject(PandaNode):
         self.ModelNode.reparentTo(parentNode)
         self.modelNode.setName(nodeName)
 
-
 class CollidableObject(PlacedObject):
 
     def __init__(self, Loader: Loader, modelPath: str, parentNode: NodePath, nodeName: str):

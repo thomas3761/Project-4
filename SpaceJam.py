@@ -21,7 +21,8 @@ class SpaceJam(ShowBase):
 
         self.modelNode = spaceJamClasses.Spaceship(self.loader, self.render, "./Assets/Khan/Khan.x", self.render, "Spaceship", "./Assets/Khan/Khan.jpg", Vec3(400, 0, 0), 10, self.taskMgr, self.accept)
 
-        self.universe = spaceJamClasses.Universe(self.loader, self.render, "./Assets/Universe/Universe.x", self.render, "Universe", "./Assets/Universe/space-galaxy.jpg", Vec3(0, 0, 0), 15000)
+        self.universe = spaceJamClasses.Universe(self.loader, self.render, "./Assets/Universe/Universe.x", self.render, "Universe", "./Assets/Universe/space-galaxy.jpg", Vec3(0,0,0), 15000, Vec3(0, 0, 0), 0.9)  # Example values for colPositionVec and colRadius
+
         self.spaceStation = spaceJamClasses.SpaceStation(self.loader, self.render, "./Assets/SpaceStation1B/spaceStation.x", "./Assets/SpaceStation1B/SpaceStation1_Dif2.png", Vec3(1000, 5000, 80), 50)
 
 

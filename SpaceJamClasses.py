@@ -65,8 +65,8 @@ class Planet(ShowBase):
         self.planet6.setTexture(tex, 1)
 
 class Universe(InverseSphereCollideObject):
-    def __init__(self, loader: Loader, render: NodePath, modelPath: str, parentNode: NodePath, nodeName: str, texPath: str, posVec: Vec3, scaleVec: float):
-        super(InverseSphereCollideObject, self).__init__(Loader, modelPath, parentNode, nodeName, Vec3(0, 0, 0), 0.9)
+    def __init__(self, loader: Loader, render: NodePath, modelPath: str, parentNode: NodePath, nodeName: str, texPath: str, posVec: Vec3, scaleVec: float,colPositionVec: Vec3, colRadius: float):
+        super(InverseSphereCollideObject, self).__init__(loader, modelPath, parentNode, nodeName, colPositionVec, colRadius)
         
         # Set position and scale of the model node
         self.modelNode.setPos(posVec)
