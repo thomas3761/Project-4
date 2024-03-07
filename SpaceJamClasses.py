@@ -8,6 +8,7 @@ from CollideObjectBase import *
 class Planet(ShowBase):
 
     def __init__(self, loader: Loader, render: NodePath, modelPath: str, parentNode: NodePath, nodeName: str, texPath: str, posVec: Vec3, scaleVec: float):
+        super().__init__(nodeName)
 
         self.modelNode = loader.loadModel(modelPath)
         self.modelNode.reparentTo(parentNode)
@@ -90,8 +91,10 @@ class Universe(InverseSphereCollideObject):
         self.universe.setScale(15000)
         tex = loader.loadTexture("./Assets/Universe/space-galaxy.jpg")
        
-class Spaceship:# / player
+class Spaceship(PlacedObject):# / player
     def __init__(self, loader: Loader, render: NodePath, modelPath: str, parentNode: NodePath, nodeName: str, texPath: str, posVec: Vec3, scaleVec: float, taskManager: TaskManager, accept: Callable[[str, Callable], None]):
+        super().__init__(loader, render, modelPath, parentNode, nodeName)
+        
         self.modelNode = loader.loadModel(modelPath)
         self.modelNode.reparentTo(parentNode)
         self.modelNode.setPos(posVec)
