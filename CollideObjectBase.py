@@ -2,7 +2,9 @@ from panda3d.core import PandaNode, Loader , NodePath, CollisionNode, CollisionS
 
 class PlacedObject(PandaNode):
 
-    def __init__(self, Loader: Loader, modelPath: str, parentNode: NodePath, nodeName: str):
+    def __init__(self, loader: Loader, render: NodePath, modelPath: str, parentNode: NodePath, nodeName: str, posVec: Vec3, radius: float):
+        super().__init__(loader, modelPath, parentNode, nodeName, posVec, radius)
+        
         self.modelPath: NodePath = Loader.LoadModel(modelPath)
 
         if not isinstance(self.modelNode, NodePath):
@@ -13,9 +15,8 @@ class PlacedObject(PandaNode):
 
 class CollidableObject(PlacedObject):
 
-    def __init__(self, Loader: Loader, modelPath: str, parentNode: NodePath, nodeName: str):
-        super(CollidableObject, self).__init__(Loader, modelPath, parentNode, nodeName)
-
+    def __init__(self, Loader: Loader, modelPath: str, parentNode: NodePath, nodeName: str, posVec: Vec3, radius: float):
+        super(CollidableObject, self).__init__(Loader, modelPath, parentNode, nodeName, posVec, radius)
         self.collisionNode = self.modelNode.attachNewNode(CollisionNode(nodeName + '_cNode'))
 
 class InverseSphereCollideObject(CollidableObject):
@@ -30,3 +31,16 @@ class CollisionCapsuleObject(CollidableObject):
         super(CollidableObject, self).__init__(Loader, modelPath, parentNode, nodeName)
         self.collisionNode.node().addSolid(CollisionCapsule(ax, ay, bx, by, bz, r))
         self.collisionNode.show()
+
+class SphereCollideObject(CollidableObject):
+    def __init__(self, Loader: Loader, modelPath: str, parentNode: NodePath, nodeName: str, center: Vec3, radius: float):
+        super().__init__(Loader, modelPath, parentNode, nodeName)
+
+        self.collisionNode = self.modelNode.attachNewNode(CollisionNode(nodeName + '_collision'))
+
+        # Create a CollisionSphere  at center
+        collisionSphere = CollisionSphere(center, radius)
+
+        self.collisionNode.node().addSolid(collisionSphere)
+        # Enable collisions
+        self.modelNode.setCollideMask(1)  # Collide with all objects
