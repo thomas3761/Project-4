@@ -1,46 +1,41 @@
 from panda3d.core import PandaNode, Loader , NodePath, CollisionNode, CollisionSphere, CollisionInvSphere, CollisionCapsule, Vec3
 
 class PlacedObject(PandaNode):
+    def __init__(self, loader: Loader, modelPath: str, parentNode: NodePath, nodeName: str, posVec: Vec3, radius: float):
+        super().__init__(nodeName)
 
-    def __init__(self, loader: Loader, render: NodePath, modelPath: str, parentNode: NodePath, nodeName: str, posVec: Vec3, radius: float):
-        super().__init__(loader, modelPath, parentNode, nodeName, posVec, radius)
+        self.modelPath = loader.loadModel(modelPath)
         
-        self.modelPath: NodePath = Loader.LoadModel(modelPath)
-
-        if not isinstance(self.modelNode, NodePath):
-            raise AssertionError("PlacedObject Loader.LoadModel ("+ modelPath + ") did not return a proper PandaNodel!")
+        if not isinstance(self.modelPath, NodePath):
+            raise AssertionError(f"PlacedObject loader.loadModel({modelPath}) did not return a proper PandaNode!")
         
-        self.ModelNode.reparentTo(parentNode)
-        self.modelNode.setName(nodeName)
+        self.modelPath.reparentTo(parentNode)
 
 class CollidableObject(PlacedObject):
+    def __init__(self, loader: Loader, modelPath: str, parentNode: NodePath, nodeName: str, posVec: Vec3, radius: float):
+        super().__init__(loader, modelPath, parentNode, nodeName, posVec, radius)
 
-    def __init__(self, Loader: Loader, modelPath: str, parentNode: NodePath, nodeName: str, posVec: Vec3, radius: float):
-        super(CollidableObject, self).__init__(Loader, modelPath, parentNode, nodeName, posVec, radius)
-        self.collisionNode = self.modelNode.attachNewNode(CollisionNode(nodeName + '_cNode'))
+        self.collisionNode = self.modelPath.attachNewNode(CollisionNode(nodeName + '_cNode'))
 
 class InverseSphereCollideObject(CollidableObject):
+    def __init__(self, loader: Loader, modelPath: str, parentNode: NodePath, nodeName: str, colPositionVec: Vec3, colRadius: float):
+        super().__init__(loader, modelPath, parentNode, nodeName, colPositionVec, colRadius)
 
-    def __init__(self, Loader: Loader, modelPath: str, parentNode: NodePath, nodeName: str, colPositionVec: Vec3, colRadius: float):
-        super(InverseSphereCollideObject, self).__init__(Loader, modelPath, parentNode, nodeName)
         self.collisionNode.node().addSolid(CollisionCapsule(colPositionVec, colRadius))
         #self.collisionNode.show()
 
 class CollisionCapsuleObject(CollidableObject):
-    def __init__(self, Loader: Loader, modelPath: str, parentNode: NodePath, nodeName: str,ax: float, ay: float, az: float, bx: float, by: float, bz: float, r: float):
-        super(CollidableObject, self).__init__(Loader, modelPath, parentNode, nodeName)
-        self.collisionNode.node().addSolid(CollisionCapsule(ax, ay, bx, by, bz, r))
+    def __init__(self, loader: Loader, modelPath: str, parentNode: NodePath, nodeName: str, ax: float, ay: float, az: float, bx: float, by: float, bz: float, r: float):
+        super().__init__(loader, modelPath, parentNode, nodeName, Vec3(ax, ay, az), r)
+
+        self.collisionNode.node().addSolid(CollisionCapsule(Vec3(ax, ay, az), Vec3(bx, by, bz), r))
         self.collisionNode.show()
 
 class SphereCollideObject(CollidableObject):
-    def __init__(self, Loader: Loader, modelPath: str, parentNode: NodePath, nodeName: str, center: Vec3, radius: float):
-        super().__init__(Loader, modelPath, parentNode, nodeName)
+    def __init__(self, loader: Loader, modelPath: str, parentNode: NodePath, nodeName: str, center: Vec3, radius: float):
+        super().__init__(loader, modelPath, parentNode, nodeName, center, radius)
 
-        self.collisionNode = self.modelNode.attachNewNode(CollisionNode(nodeName + '_collision'))
-
-        # Create a CollisionSphere  at center
+        self.collisionNode = self.modelPath.attachNewNode(CollisionNode(nodeName + '_collision'))
         collisionSphere = CollisionSphere(center, radius)
-
         self.collisionNode.node().addSolid(collisionSphere)
-        # Enable collisions
-        self.modelNode.setCollideMask(1)  # Collide with all objects
+        self.modelPath.setCollideMask(1)  # Collide with all objects

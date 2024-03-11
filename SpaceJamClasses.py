@@ -6,16 +6,14 @@ from typing import Callable
 from CollideObjectBase import *
 
 class Planet(SphereCollideObject):
-
-    def __init__(self, loader: Loader, render: NodePath, modelPath: str, parentNode: NodePath, nodeName: str, texPath: str, posVec: Vec3, scaleVec: float):
-        # Call the constructor of the superclass with the required arguments
-        super().__init__(loader, modelPath, parentNode, nodeName, posVec, scaleVec)
+    def __init__(self, loader: Loader, render: NodePath, modelPath: str, parentNode: NodePath, nodeName: str, texPath: str, posVec: Vec3, scaleVec: float, radius: float):
+        super().__init__(loader, modelPath, parentNode, nodeName, posVec, radius)
         
-        # Additional initialization specific to the Planet class, if any
-        self.modelNode.setName(nodeName)
         tex = loader.loadTexture(texPath)
         self.modelNode.setTexture(tex, 1)
-
+        self.modelNode.setName(nodeName)
+        tex = loader.loadTexture(texPath)
+    
         self.modelNode = loader.loadModel(modelPath)
         self.modelNode.reparentTo(parentNode)
         self.modelNode.setPos(posVec)
@@ -26,7 +24,6 @@ class Planet(SphereCollideObject):
 
         self.modelNode.setName(nodeName)
         tex = loader.loadTexture(texPath)
-        self.modelNode.setTexture(tex, 1)
 
         #planets
         self.planet1 = self.loader.loadModel("./Assets/Planets/protoPlanet.x")
@@ -99,7 +96,7 @@ class Universe(InverseSphereCollideObject):
        
 class Spaceship(PlacedObject):# / player
     def __init__(self, loader: Loader, render: NodePath, modelPath: str, parentNode: NodePath, nodeName: str, texPath: str, posVec: Vec3, scaleVec: float, taskManager: TaskManager, accept: Callable[[str, Callable], None]):
-        super(CollidableObject, self).__init__(loader, render, modelPath, parentNode, nodeName)
+        super().__init__(loader, modelPath, parentNode, nodeName, posVec, scaleVec)
         
         self.modelNode = loader.loadModel(modelPath)
         self.modelNode.reparentTo(parentNode)
