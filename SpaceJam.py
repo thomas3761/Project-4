@@ -23,12 +23,14 @@ class SpaceJam(ShowBase):
 
         self.universe = spaceJamClasses.Universe(self.loader, self.render, "./Assets/Universe/Universe.x", self.render, "Universe", "./Assets/Universe/space-galaxy.jpg", Vec3(0,0,0), 15000, Vec3(0, 0, 0), 0.9)  # Example values for colPositionVec and colRadius
 
-        self.spaceStation = spaceJamClasses.SpaceStation(self.loader, self.render, "./Assets/SpaceStation1B/spaceStation.x", "./Assets/SpaceStation1B/SpaceStation1_Dif2.png", Vec3(1000, 5000, 80), 50)
+        self.spaceStation = spaceJamClasses.SpaceStation(self.loader, self.render, "./Assets/SpaceStation1B/spaceStation.x", self.render, "SpaceStation", "./Assets/SpaceStation1B/SpaceStation1_Dif2.png", Vec3(1000, 5000, 80), Vec3(10, 10, 50), 5)
+
 
         self.cTrav = CollisionTraverser()
         self.cTrav.traverse(self.render)
         self.pusher = CollisionHandlerPusher()
-        self.pusher.addCollider(self.spaceship.collisionNede, self.spaceship.modelNode)
+        self.pusher.addCollider(self.modelNode.collisionNode, self.modelNode.modelPath)
+
         self.cTrav.pusher.addCollider(self.spaceship.collisionNede, self.pusher)
         self.cTrav.showCollisions(self.render)
 

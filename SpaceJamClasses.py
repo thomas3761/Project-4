@@ -9,22 +9,20 @@ class Planet(SphereCollideObject):
     def __init__(self, loader: Loader, render: NodePath, modelPath: str, parentNode: NodePath, nodeName: str, texPath: str, posVec: Vec3, scaleVec: float, radius: float):
         super().__init__(loader, modelPath, parentNode, nodeName, posVec, radius)
         
-        tex = loader.loadTexture(texPath)
-        self.modelNode.setTexture(tex, 1)
-        self.modelNode.setName(nodeName)
-        tex = loader.loadTexture(texPath)
-    
+         # Load the model
         self.modelNode = loader.loadModel(modelPath)
         self.modelNode.reparentTo(parentNode)
         self.modelNode.setPos(posVec)
         self.modelNode.setScale(scaleVec)
-
+        self.modelNode.setName(nodeName)
+        
+        # Set texture
+        tex = loader.loadTexture(texPath)
+        self.modelNode.setTexture(tex, 1)
+        
         self.loader = loader
         self.render = render
-
-        self.modelNode.setName(nodeName)
-        tex = loader.loadTexture(texPath)
-
+        
         #planets
         self.planet1 = self.loader.loadModel("./Assets/Planets/protoPlanet.x")
         self.planet1.reparentTo(self.render)
@@ -72,20 +70,19 @@ class Universe(InverseSphereCollideObject):
     def __init__(self, loader: Loader, render: NodePath, modelPath: str, parentNode: NodePath, nodeName: str, texPath: str, posVec: Vec3, scaleVec: float,colPositionVec: Vec3, colRadius: float):
         super(InverseSphereCollideObject, self).__init__(loader, modelPath, parentNode, nodeName, colPositionVec, colRadius)
         
-        # Set position and scale of the model node
-        self.modelNode.setPos(posVec)
-        self.modelNode.setScale(scaleVec)
-        self.modelNode.setName(nodeName)
-
-        # Load the model, set its texture, and position it
+        # Load the model
         self.universe = loader.loadModel(modelPath)
         self.universe.reparentTo(render)
         self.universe.setPos(posVec)
         self.universe.setScale(scaleVec)
         self.universe.setName(nodeName)
+        
+        # Set texture
         tex = loader.loadTexture(texPath)
         self.universe.setTexture(tex, 1)
 
+        # Set modelNode as the universe
+        self.modelNode = self.universe
         self.loader = loader
         self.render = render
 
@@ -232,8 +229,8 @@ class Spaceship(PlacedObject):# / player
         self.accept('d-up', self.RotateRight, [0])
       
 class SpaceStation(CollidableObject):
-    def __init__(self, loader: Loader, render: NodePath, modelPath: str, parentNode: NodePath, nodeName: str, texPath: str, posVec: Vec3, scaleVec: float):
-        super(SpaceStation, self).__init__(loader, modelPath, parentNode, nodeName, 1, -1, 5, 1, -1, -5, 10)
+    def __init__(self, loader: Loader, render: NodePath, modelPath: str, parentNode: NodePath, nodeName: str, texPath: str, posVec: Vec3, scaleVec: float, radius: float):
+        super().__init__(loader, modelPath, parentNode, nodeName, posVec, radius)
 
         self.station = loader.loadModel(modelPath)
         self.station.reparentTo(render)
