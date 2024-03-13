@@ -38,5 +38,5 @@ class SphereCollideObject(CollidableObject):
         self.collisionNode = self.modelPath.attachNewNode(CollisionNode(nodeName + '_collision'))
         collisionSphere = CollisionSphere(center, radius)
         self.collisionNode.node().addSolid(collisionSphere)
-        self.modelPath.setCollideMask(1)  
+        self.modelPath.setCollideMask(1)
         self.modelNode = self.modelPath

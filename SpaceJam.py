@@ -27,11 +27,9 @@ class SpaceJam(ShowBase):
 
 
         self.cTrav = CollisionTraverser()
-        self.cTrav.traverse(self.render)
         self.pusher = CollisionHandlerPusher()
+        self.cTrav.traverse(self.render)
         self.pusher.addCollider(self.modelNode.collisionNode, self.modelNode.modelPath)
-
-        self.cTrav.pusher.addCollider(self.spaceship.collisionNede, self.pusher)
         self.cTrav.showCollisions(self.render)
 
         fullCycle = 60
