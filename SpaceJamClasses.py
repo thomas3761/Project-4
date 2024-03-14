@@ -6,15 +6,13 @@ from typing import Callable
 from CollideObjectBase import *
 
 class Planet(SphereCollideObject):
-    def __init__(self, loader: Loader, render: NodePath, modelPath: str, parentNode: NodePath, nodeName: str, texPath: str, posVec: Vec3, scaleVec: float, radius: float):
-        super().__init__(loader, modelPath, parentNode, nodeName, posVec, radius)
+    def __init__(self, loader: Loader, render: NodePath, modelPath: str, parentNode: NodePath, nodeName: str, texPath: str, posVec: Vec3, scaleVec: float):
+        super(Planet, self).__init__(loader, modelPath, parentNode, nodeName, Vec3 (0,0,0), 1.2)
         
          # Load the model
-        self.modelNode = loader.loadModel(modelPath)
-        self.modelNode.reparentTo(parentNode)
+
         self.modelNode.setPos(posVec)
         self.modelNode.setScale(scaleVec)
-        self.modelNode.setName(nodeName)
         
         # Set texture
         tex = loader.loadTexture(texPath)
@@ -24,79 +22,29 @@ class Planet(SphereCollideObject):
         self.render = render
         
         #planets
-        self.planet1 = self.loader.loadModel("./Assets/Planets/protoPlanet.x")
-        self.planet1.reparentTo(self.render)
-        self.planet1.setPos(150, 5000, 67)
-        self.planet1.setScale(350)
-        tex = self.loader.loadTexture("./Assets/Planets/Planet 1.jpg")
-        self.planet1.setTexture(tex, 1)
-
-        self.planet2 = self.loader.loadModel("./Assets/Planets/protoPlanet.x")
-        self.planet2.reparentTo(self.render)
-        self.planet2.setPos(7314, 1274, 976)
-        self.planet2.setScale(350)
-        tex = self.loader.loadTexture("./Assets/Planets/Planet 2.jpg")  
-        self.planet2.setTexture(tex, 1)
-
-        self.planet3 = self.loader.loadModel("./Assets/Planets/protoPlanet.x")
-        self.planet3.reparentTo(self.render)
-        self.planet3.setPos(11985, 1274, 1112)
-        self.planet3.setScale(350)
-        tex = self.loader.loadTexture("./Assets/Planets/Planet 3.png")
-        self.planet3.setTexture(tex, 1)
-
-        self.planet4 = self.loader.loadModel("./Assets/Planets/protoPlanet.x")
-        self.planet4.reparentTo(self.render)
-        self.planet4.setPos(9067, 1274, 2378)
-        self.planet4.setScale(350)
-        tex = self.loader.loadTexture("./Assets/Planets/Planet 4.jpg")
-        self.planet4.setTexture(tex, 1)
-
-        self.planet5 = self.loader.loadModel("./Assets/Planets/protoPlanet.x")
-        self.planet5.reparentTo(self.render)
-        self.planet5.setPos(1382, 1274, 4567)
-        self.planet5.setScale(350)
-        tex = self.loader.loadTexture("./Assets/Planets/Planet 5.jpg")
-        self.planet5.setTexture(tex, 1)
-
-        self.planet6 = self.loader.loadModel("./Assets/Planets/protoPlanet.x")
-        self.planet6.reparentTo(self.render)
-        self.planet6.setPos(4502, 1274, 6478) 
-        self.planet6.setScale(350)
-        tex = self.loader.loadTexture("./Assets/Planets/Planet 6.png")
-        self.planet6.setTexture(tex, 1)
-
+        
 class Universe(InverseSphereCollideObject):
-    def __init__(self, loader: Loader, render: NodePath, modelPath: str, parentNode: NodePath, nodeName: str, texPath: str, posVec: Vec3, scaleVec: float,colPositionVec: Vec3, colRadius: float):
-        super(InverseSphereCollideObject, self).__init__(loader, modelPath, parentNode, nodeName, colPositionVec, colRadius)
+    def __init__(self, loader: Loader, render: NodePath, modelPath: str, parentNode: NodePath, nodeName: str, texPath: str, posVec: Vec3, scaleVec: float):
+        super(Universe, self).__init__(loader, modelPath, parentNode, nodeName,Vec3 (0, 0, 0), 1.2)
         
         # Load the model
-        self.universe = loader.loadModel(modelPath)
-        self.universe.reparentTo(render)
-        self.universe.setPos(posVec)
-        self.universe.setScale(scaleVec)
-        self.universe.setName(nodeName)
-        
+        self.modelNode.setPos(posVec)
+        self.modelNode.setScale(scaleVec)
+
         # Set texture
         tex = loader.loadTexture(texPath)
-        self.universe.setTexture(tex, 1)
+        self.modelNode.setTexture(tex, 1)
 
         # Set modelNode as the universe
-        self.modelNode = self.universe
+        
         self.loader = loader
         self.render = render
 
-        self.universe = loader.loadModel("./Assets/Universe/Universe.x")
-        self.universe.reparentTo(render)
-        self.universe.setScale(15000)
-        tex = loader.loadTexture("./Assets/Universe/space-galaxy.jpg")
        
 class Spaceship(SphereCollideObject):# / player
     def __init__(self, loader: Loader, render: NodePath, modelPath: str, parentNode: NodePath, nodeName: str, texPath: str, posVec: Vec3, scaleVec: float, taskManager: TaskManager, accept: Callable[[str, Callable], None]):
-        super().__init__(loader, modelPath, parentNode, nodeName, posVec, scaleVec)
+        super(Spaceship,self).__init__(loader, modelPath, parentNode, nodeName, Vec3 (0, 0, 0), 1)
         
-        self.modelNode = loader.loadModel(modelPath)
-        self.modelNode.reparentTo(parentNode)
         self.modelNode.setPos(posVec)
         self.modelNode.setScale(scaleVec)
 
@@ -105,21 +53,12 @@ class Spaceship(SphereCollideObject):# / player
         self.render = render
         self.accept = accept
 
-        self.modelNode.setName(nodeName)
         tex = loader.loadTexture(texPath)
         self.modelNode.setTexture(tex, 1)
-        self.modelNode.setP(100)
-
+        #self.modelNode.setP(100)
 
         self.setKeyBindings()
 
-       # self.spaceship = self.loader.loadModel(".\Assets\Khan\Khan.x")
-        self.modelNode.reparentTo(self.render)
-        self.modelNode.setPos(0, 0, 0) 
-        self.modelNode.setScale(10)
-        #tex = self.loader.loadTexture(".\Assets\Khan\Khan.jpg")
-        self.modelNode.setTexture(tex, 1)
-        
     def Thrust(self, keyDown):
         if keyDown:
             self.taskManager.add(self.ApplyThrust, 'Forward-thrust')
@@ -127,7 +66,7 @@ class Spaceship(SphereCollideObject):# / player
             self.taskManager.remove('Forward-thrust')
 
     def ApplyThrust(self, task):
-        rate = 3
+        rate = 5
         trajectory = self.render.getRelativeVector(self.modelNode, Vec3.forward())
         trajectory.normalize()
         self.modelNode.setFluidPos(self.modelNode.getPos() + trajectory * rate)
@@ -153,56 +92,56 @@ class Spaceship(SphereCollideObject):# / player
 
     def ApplyRightTurn(self, task):
         # Half a degree every frame
-        rate = -0.5  
-        self.modelNode.setH(self.modelNode.getH() + rate)  
-        return Task.cont
-        
-    def MoveUp(self, keyDown):
-        if keyDown:
-            self.taskManager.add(self.ApplyMoveUp, 'MoveUp')
-        else: 
-            self.taskManager.remove('MoveUp')
-
-    def ApplyMoveUp(self, task):
-        # Half a degree every frame
         rate = 0.5  
-        self.modelNode.setZ(self.modelNode.getZ() + rate)  
+        self.modelNode.setH(self.modelNode.getH() - rate)  
         return Task.cont
         
-    def MoveDown(self, keyDown):
+    def PitchForwd(self, keyDown):
         if keyDown:
-            self.taskManager.add(self.ApplyMoveDown, 'MoveDown')
+            self.taskManager.add(self.ApplyPitchForwd, 'PitchForwd')
         else: 
-            self.taskManager.remove('MoveDown')
+            self.taskManager.remove('PitchForwd')
 
-    def ApplyMoveDown(self, task):
-        # Half a degree every frame
-        rate = -0.5  
-        self.modelNode.setZ(self.modelNode.getZ() + rate) 
-        return Task.cont
-        
-    def RotateLeft(self, keyDown):
-        if keyDown:
-            self.taskManager.add(self.ApplyRotateLeft, 'RotateLeft')
-        else: 
-            self.taskManager.remove('RotateLeft')
-
-    def ApplyRotateLeft(self, task):
+    def ApplyPitchForwd(self, task):
         # Half a degree every frame
         rate = 0.5  
         self.modelNode.setP(self.modelNode.getP() + rate)  
         return Task.cont
-
-    def RotateRight(self, keyDown):
+        
+    def PitchBack(self, keyDown):
         if keyDown:
-            self.taskManager.add(self.ApplyRotateRight, 'RotateRight')
-        else:
-            self.taskManager.remove('RotateRight')
+            self.taskManager.add(self.ApplyPitchBack, 'PitchBack')
+        else: 
+            self.taskManager.remove('PitchBack')
 
-    def ApplyRotateRight(self, task):
+    def ApplyPitchBack(self, task):
         # Half a degree every frame
-        rate = -0.5  
-        self.modelNode.setP(self.modelNode.getP() + rate) 
+        rate = 0.5  
+        self.modelNode.setP(self.modelNode.getP() - rate) 
+        return Task.cont
+        
+    def RollLeft(self, keyDown):
+        if keyDown:
+            self.taskManager.add(self.ApplyRollLeft, 'RollLeft')
+        else: 
+            self.taskManager.remove('RollLeft')
+
+    def ApplyRollLeft(self, task):
+        # Half a degree every frame
+        rate = 0.5  
+        self.modelNode.setR(self.modelNode.getR() - rate)  
+        return Task.cont
+
+    def RollRight(self, keyDown):
+        if keyDown:
+            self.taskManager.add(self.ApplyRollRight, 'RollRight')
+        else:
+            self.taskManager.remove('RollRight')
+
+    def ApplyRollRight(self, task):
+        # Half a degree every frame
+        rate = 0.5  
+        self.modelNode.setR(self.modelNode.getR() + rate) 
         return Task.cont
 
     def setKeyBindings(self):  
@@ -217,39 +156,29 @@ class Spaceship(SphereCollideObject):# / player
         self.accept('arrow_right-up', self.RightTurn, [0])
 
         # Keys for up and down
-        self.accept('arrow_up', self.MoveUp, [1])
-        self.accept('arrow_up-up', self.MoveUp, [0])
-        self.accept('arrow_down', self.MoveDown, [1])
-        self.accept('arrow_down-up', self.MoveDown, [0])
+        self.accept('arrow_up', self.PitchForwd, [1])
+        self.accept('arrow_up-up', self.PitchForwd, [0])
+        self.accept('arrow_down', self.PitchBack, [1])
+        self.accept('arrow_down-up', self.PitchBack, [0])
 
         # Keys for rotating left and right
-        self.accept('a', self.RotateLeft, [1])
-        self.accept('a-up', self.RotateLeft, [0])
-        self.accept('d', self.RotateRight, [1])
-        self.accept('d-up', self.RotateRight, [0])
+        self.accept('a', self.RollLeft, [1])
+        self.accept('a-up', self.RollLeft, [0])
+        self.accept('d', self.RollRight, [1])
+        self.accept('d-up', self.RollRight, [0])
       
-class SpaceStation(CollidableObject):
+class SpaceStation(CollisionCapsuleObject):
     def __init__(self, loader: Loader, render: NodePath, modelPath: str, parentNode: NodePath, nodeName: str, texPath: str, posVec: Vec3, scaleVec: float, radius: float):
-        super().__init__(loader, modelPath, parentNode, nodeName, posVec, radius)
+        super(SpaceStation, self).__init__(loader, modelPath, parentNode, nodeName,1, -1, 5, 1, -1, -5, 0)
 
-        self.station = loader.loadModel(modelPath)
-        self.station.reparentTo(render)
-        self.station.setPos(posVec)
-        self.station.setScale(scaleVec)
-        self.station.setName("SpaceStation")
-
+        self.modelNode.setPos(posVec)
+        self.modelNode.setScale(scaleVec)
         self.loader = loader
         self.render = render
-
         tex = loader.loadTexture(texPath)
-        self.station.setTexture(tex, 1)
+        self.modelNode.setTexture(tex, 1)
         
-        self.station = loader.loadModel("./Assets/SpaceStation1B/spaceStation.x")
-        self.station.reparentTo(render)
-        self.station.setPos(1000, 5000, 80)
-        self.station.setScale(50)
-        tex = loader.loadTexture("./Assets/SpaceStation1B/SpaceStation1_Dif2.png")
-        self.station.setTexture(tex, 1)
+        #self.station = loader.loadModel("./Assets/SpaceStation1B/spaceStation.x")
 
 
 class DroneShowBase():
